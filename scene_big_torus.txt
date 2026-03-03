@@ -1,0 +1,8 @@
+# Big Torus Test Scene
+# Format: torus x y z R r material r g b ir
+
+# Ground
+xy_rect -20 20 -20 20 0 lambertian 0.5 0.5 0.5
+
+# Giant red torus right in front
+torus 0 0 3 2.5 0.5 dielectric 1.0 0.2 0.2 1.5

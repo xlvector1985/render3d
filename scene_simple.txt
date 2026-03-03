@@ -1,0 +1,8 @@
+# Simple Test Scene
+# Format: sphere x y z radius material r g b ir
+
+# Ground
+xy_rect -10 10 -10 10 0 lambertian 0.5 0.5 0.5
+
+# Big red glass sphere right in front
+sphere 0 0 2 1 dielectric 1.0 0.2 0.2 1.5

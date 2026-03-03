@@ -1,0 +1,8 @@
+*.o
+*.ppm
+*.png
+__pycache__
+raytracer
+raytracer_bvh
+rendered_results/
+temp.txt

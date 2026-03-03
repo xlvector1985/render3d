@@ -1,0 +1,21 @@
+# Green Glass Torus, tilted
+# Format: torus x y z R r material r g b ir [rx ry rz]
+# Center is at (0,0,2.0), minor radius 0.3, major radius 1.2
+# Rotated 45 degrees around X axis, and 30 degrees around Y axis
+
+# Floor - XY plane (z=0), chessboard
+xy_rect -5 5 -5 5 0 checker 0.05 0.05 0.05 0.95 0.95 0.95
+
+# Left wall - YZ plane (x=-5), chessboard
+yz_rect -5 5 0 3 -5 checker 0.05 0.05 0.05 0.95 0.95 0.95
+
+# Right wall - YZ plane (x=5), chessboard
+yz_rect -5 5 0 3 5 checker 0.05 0.05 0.05 0.95 0.95 0.95
+
+# Back wall - XZ plane (y=5), chessboard
+xz_rect -5 5 0 3 5 checker 0.05 0.05 0.05 0.95 0.95 0.95
+
+# Tilted green glass torus
+# dielectric material: r g b ir
+# Using slightly dark green for better visibility of volume absorption if implemented, or just tint
+torus 0 0 2.0 1.2 0.3 dielectric 0.1 0.9 0.1 1.5 45 30 0

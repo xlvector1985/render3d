@@ -1,0 +1,19 @@
+# Red rubber torus, tilted
+# Format: torus x y z R r material r g b [rx ry rz]
+# Center is at (0,0,2.0), minor radius 0.3, major radius 1.2
+# Rotated 45 degrees around X axis, and 30 degrees around Y axis
+
+# Floor - XY plane (z=0), chessboard
+xy_rect -5 5 -5 5 0 checker 0.05 0.05 0.05 0.95 0.95 0.95
+
+# Left wall - YZ plane (x=-5), chessboard
+yz_rect -5 5 0 3 -5 checker 0.05 0.05 0.05 0.95 0.95 0.95
+
+# Right wall - YZ plane (x=5), chessboard
+yz_rect -5 5 0 3 5 checker 0.05 0.05 0.05 0.95 0.95 0.95
+
+# Back wall - XZ plane (y=5), chessboard
+xz_rect -5 5 0 3 5 checker 0.05 0.05 0.05 0.95 0.95 0.95
+
+# Tilted red torus (Lifted to z=2.0 to avoid clipping)
+torus 0 0 2.0 1.2 0.3 lambertian 0.8 0.2 0.2 45 30 0

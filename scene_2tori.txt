@@ -1,0 +1,11 @@
+# 2 Colored Glass Torii
+# Format: torus x y z R r material r g b ir
+
+# Ground
+xy_rect -8 8 -8 8 0 lambertian 0.8 0.8 0.8
+
+# Red torus (darker red for more absorption)
+torus -1.5 0 1.2 0.8 0.15 dielectric 0.3 0.05 0.05 1.5
+
+# Yellow torus (darker yellow for more absorption)
+torus 1.5 0.5 1.5 0.75 0.14 dielectric 0.3 0.25 0.05 1.5
