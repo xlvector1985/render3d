@@ -1,0 +1,12 @@
+camera 13 2 3 0 1 0 0 1 0 20 1.777
+resolution 400 225
+samples 100
+max_depth 50
+background 0.7 0.8 1.0
+
+# Floor (using xz_rect as a large plane)
+xz_rect -100 100 -100 100 0 lambertian 0.8 0.8 0.8
+
+# Mesh sphere
+# mesh filename scale x y z ry mat_type r g b
+mesh sphere.obj 1.0 0 1 0 0 lambertian 0.1 0.2 0.8
