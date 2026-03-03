@@ -766,6 +766,11 @@ shared_ptr<hittable> load_scene_from_file(const string& filename, SceneSettings&
                 float ir;
                 iss >> ir;
                 mat = make_shared<dielectric>(ir, color(cr, cg, cb));
+            } else if (mat_type == "wireframe") {
+                // wireframe r g b line_r line_g line_b thickness
+                float lr, lg, lb, thickness;
+                iss >> lr >> lg >> lb >> thickness;
+                mat = make_shared<wireframe_lambertian>(color(cr, cg, cb), color(lr, lg, lb), thickness);
             } else {
                 // Default to lambertian if unknown or just continue
                 mat = make_shared<lambertian>(color(0.5, 0.5, 0.5));

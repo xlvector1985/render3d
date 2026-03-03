@@ -138,4 +138,37 @@ public:
     color emit;
 };
 
+class wireframe_lambertian : public material {
+public:
+    wireframe_lambertian(const color& base, const color& outline, float thickness)
+        : base_albedo(base), outline_color(outline), thickness(thickness) {}
+
+    virtual bool scatter(const ray& r_in, const hit_record& rec, color& attenuation, ray& scattered) const override {
+        auto scatter_direction = rec.normal + random_unit_vector();
+        if (scatter_direction.near_zero())
+            scatter_direction = rec.normal;
+        scattered = ray(rec.p, scatter_direction);
+        
+        // Barycentric edge detection
+        // For triangles, rec.u and rec.v are the barycentric coordinates corresponding to v1 and v2
+        // The third coordinate w is 1 - u - v
+        float u = rec.u;
+        float v = rec.v;
+        float w = 1.0 - u - v;
+        
+        // Check if we are close to any edge (where a coordinate is near 0)
+        if (u < thickness || v < thickness || w < thickness) {
+            attenuation = outline_color;
+        } else {
+            attenuation = base_albedo;
+        }
+        return true;
+    }
+
+public:
+    color base_albedo;
+    color outline_color;
+    float thickness;
+};
+
 #endif

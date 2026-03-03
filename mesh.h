@@ -44,6 +44,8 @@ public:
             vec3 outward_normal = unit_vector(cross(edge1, edge2));
             rec.set_face_normal(r, outward_normal);
             rec.mat_ptr = mat_ptr;
+            rec.u = u;
+            rec.v = v;
             return true;
         }
         else

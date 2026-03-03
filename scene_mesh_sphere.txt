@@ -9,4 +9,6 @@ xz_rect -100 100 -100 100 0 lambertian 0.8 0.8 0.8
 
 # Mesh sphere
 # mesh filename scale x y z ry mat_type r g b
-mesh sphere.obj 1.0 0 1 0 0 lambertian 0.1 0.2 0.8
+# mesh sphere.obj 1.0 0 1 0 0 lambertian 0.1 0.2 0.8
+# wireframe r g b line_r line_g line_b thickness
+mesh sphere.obj 1.0 0 1 0 0 wireframe 0.1 0.2 0.8 1.0 1.0 1.0 0.02
