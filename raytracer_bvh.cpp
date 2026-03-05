@@ -751,9 +751,9 @@ shared_ptr<hittable> load_scene_from_file(const string& filename, SceneSettings&
             world.add(make_shared<torus>(point3(x, y, z), R, r, mat, rx, ry, rz));
         } else if (type == "mesh") {
             string filename;
-            float scale, x, y, z, ry, cr, cg, cb;
+            float scale, x, y, z, cr, cg, cb;
             string mat_type;
-            iss >> filename >> scale >> x >> y >> z >> ry >> mat_type >> cr >> cg >> cb;
+            iss >> filename >> scale >> x >> y >> z >> mat_type >> cr >> cg >> cb;
             
             shared_ptr<material> mat;
             if (mat_type == "lambertian") {
@@ -776,7 +776,12 @@ shared_ptr<hittable> load_scene_from_file(const string& filename, SceneSettings&
                 mat = make_shared<lambertian>(color(0.5, 0.5, 0.5));
             }
             
-            world.add(make_shared<mesh>(filename, mat, scale, point3(x, y, z), ry));
+            float rx = 0, ry = 0, rz = 0;
+            if (iss) iss >> rx;
+            if (iss) iss >> ry;
+            if (iss) iss >> rz;
+            
+            world.add(make_shared<mesh>(filename, mat, scale, point3(x, y, z), rx, ry, rz));
         } else if (type == "xy_rect") {
             float x0, x1, y0, y1, k, cr, cg, cb;
             string mat_type;
@@ -794,9 +799,9 @@ shared_ptr<hittable> load_scene_from_file(const string& filename, SceneSettings&
                 iss >> ir;
                 mat = make_shared<dielectric>(ir);
             } else if (mat_type == "checker") {
-                float r1, g1, b1, r2, g2, b2;
-                iss >> r1 >> g1 >> b1 >> r2 >> g2 >> b2;
-                auto checker = make_shared<checker_texture>(color(r1, g1, b1), color(r2, g2, b2), checker_texture::plane_type::XY);
+                float r2, g2, b2;
+                iss >> r2 >> g2 >> b2;
+                auto checker = make_shared<checker_texture>(color(cr, cg, cb), color(r2, g2, b2), checker_texture::plane_type::XY);
                 mat = make_shared<lambertian>(checker);
             } else if (mat_type == "light") {
                 mat = make_shared<diffuse_light>(color(cr, cg, cb));
@@ -822,9 +827,9 @@ shared_ptr<hittable> load_scene_from_file(const string& filename, SceneSettings&
                 iss >> ir;
                 mat = make_shared<dielectric>(ir);
             } else if (mat_type == "checker") {
-                float r1, g1, b1, r2, g2, b2;
-                iss >> r1 >> g1 >> b1 >> r2 >> g2 >> b2;
-                auto checker = make_shared<checker_texture>(color(r1, g1, b1), color(r2, g2, b2), checker_texture::plane_type::YZ);
+                float r2, g2, b2;
+                iss >> r2 >> g2 >> b2;
+                auto checker = make_shared<checker_texture>(color(cr, cg, cb), color(r2, g2, b2), checker_texture::plane_type::YZ);
                 mat = make_shared<lambertian>(checker);
             } else if (mat_type == "light") {
                 mat = make_shared<diffuse_light>(color(cr, cg, cb));
@@ -850,9 +855,9 @@ shared_ptr<hittable> load_scene_from_file(const string& filename, SceneSettings&
                 iss >> ir;
                 mat = make_shared<dielectric>(ir);
             } else if (mat_type == "checker") {
-                float r1, g1, b1, r2, g2, b2;
-                iss >> r1 >> g1 >> b1 >> r2 >> g2 >> b2;
-                auto checker = make_shared<checker_texture>(color(r1, g1, b1), color(r2, g2, b2), checker_texture::plane_type::XZ);
+                float r2, g2, b2;
+                iss >> r2 >> g2 >> b2;
+                auto checker = make_shared<checker_texture>(color(cr, cg, cb), color(r2, g2, b2), checker_texture::plane_type::XZ);
                 mat = make_shared<lambertian>(checker);
             } else if (mat_type == "light") {
                 mat = make_shared<diffuse_light>(color(cr, cg, cb));

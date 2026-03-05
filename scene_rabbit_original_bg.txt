@@ -1,0 +1,44 @@
+# Scene with Rabbit in Center, original background
+# Camera: Closer (y=-8), Wide FOV (60), Looking at rabbit center (z=1)
+# Allows seeing side walls and sky (above walls)
+camera 0 -8 2 0 0 1 0 0 1 60 1.777
+resolution 1920 1080
+samples 100
+max_depth 50
+background 0.7 0.8 1.0
+
+# Floor - XY plane (z=0), chessboard
+# Extended to cover the camera position (y=-8)
+xy_rect -50 50 -50 50 0 checker 0.05 0.05 0.05 0.95 0.95 0.95
+
+# Left wall - YZ plane (x=-5), chessboard
+# Extended towards camera, height 5
+yz_rect -50 5 0 5 -5 checker 0.05 0.05 0.05 0.95 0.95 0.95
+
+# Right wall - YZ plane (x=5), chessboard
+# Extended towards camera, height 5
+yz_rect -50 5 0 5 5 checker 0.05 0.05 0.05 0.95 0.95 0.95
+
+# Back wall - XZ plane (y=5), chessboard
+# Correct height to 5 (z0=0, z1=5)
+xz_rect -5 5 0 5 5 checker 0.05 0.05 0.05 0.95 0.95 0.95
+
+# Green Glass Rabbit in Center (0,0,0)
+# Scale: 15
+# Offset calc: 
+# Base Z=0 -> offset Z = -0.5 (approx)
+# Center (0,0) -> Offset X=0.015, Y=0.255
+# Rotation: 90 0 180 (Face -Y, towards camera)
+mesh bunny.obj 15.0 0.015 0.255 -0.5 dielectric 0.1 0.9 0.1 1.5 90 0 180
+
+# Left Metal Torus
+# Center at (-2.5, 0, 0.2), R=0.6, r=0.2
+# Touching floor at z=0
+# metal: r g b fuzz
+torus -2.5 0 0.2 0.6 0.2 metal 0.8 0.8 0.8 0.05 0 0 0
+
+# Right Red Glass Torus
+# Center at (2.5, 0, 0.2), R=0.6, r=0.2
+# Touching floor at z=0
+# dielectric: r g b ir
+torus 2.5 0 0.2 0.6 0.2 dielectric 0.9 0.1 0.1 1.5 0 0 0

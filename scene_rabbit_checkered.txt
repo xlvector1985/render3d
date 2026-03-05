@@ -1,0 +1,28 @@
+# Scene with Checkered Floor and Walls, and Centered Rabbit
+# Camera: Centered, facing back wall (+Y direction)
+# LookFrom(0, -15, 5), LookAt(0, 0, 2), VUp(0, 0, 1)
+camera 0 -7 1.5 0 0 3.5 0 0 1 60 1.777
+resolution 1920 1080
+samples 100
+max_depth 30
+background 0.7 0.8 1.0
+
+# Floor - XY plane (z=0)
+# Checkerboard: DummyRGB(0,0,0) Color1(0.1,0.1,0.1) Color2(0.9,0.9,0.9)
+xy_rect -20 20 -20 20 0 checker 0 0 0 0.1 0.1 0.1 0.9 0.9 0.9
+
+# Back Wall - XZ plane (y=10)
+# Facing the camera
+xz_rect -20 20 0 20 10 checker 0 0 0 0.2 0.2 0.2 0.8 0.8 0.8
+
+# Left Wall - YZ plane (x=-10)
+yz_rect -20 20 0 20 -10 checker 0 0 0 0.2 0.2 0.2 0.8 0.8 0.8
+
+# Right Wall - YZ plane (x=10)
+yz_rect -20 20 0 20 10 checker 0 0 0 0.2 0.2 0.2 0.8 0.8 0.8
+
+# Metal Rabbit in Center
+# Scale: 20
+# Offset: x=0.34, y=-0.03, z=-0.66
+# Rotation: 90 0 180 (Facing -Y, towards camera)
+mesh bunny.obj 20.0 0.34 -0.03 -0.66 metal 0.8 0.8 0.8 0.05 90 0 180

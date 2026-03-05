@@ -1,8 +1,13 @@
+# Compilation
 *.o
+raytracer_bvh
+
+# Output images
 *.ppm
 *.png
-__pycache__
-raytracer
-raytracer_bvh
-rendered_results/
-temp.txt
+
+# System
+.DS_Store
+
+# Python cache
+__pycache__/

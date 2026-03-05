@@ -1,0 +1,7 @@
+camera 3 2 4 0 0.5 0 0 1 0 20 1.777
+resolution 400 225
+samples 100
+max_depth 50
+background 0.7 0.8 1.0
+mesh bunny.obj 15.0 0 -1.0 0 wireframe 0.8 0.8 0.8 0.1 0.1 0.4 0.02
+xz_rect -10 10 -10 10 -0.5 lambertian 0.5 0.5 0.5

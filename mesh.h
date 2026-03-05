@@ -7,12 +7,13 @@
 #include "material.h"
 #include <fstream>
 #include <sstream>
+#include <vector>
 
 class triangle : public hittable {
 public:
     triangle() {}
-    triangle(point3 v0, point3 v1, point3 v2, shared_ptr<material> m)
-        : v0(v0), v1(v1), v2(v2), mat_ptr(m) {}
+    triangle(point3 v0, point3 v1, point3 v2, vec3 n0, vec3 n1, vec3 n2, shared_ptr<material> m)
+        : v0(v0), v1(v1), v2(v2), n0(n0), n1(n1), n2(n2), mat_ptr(m) {}
 
     virtual bool hit(const ray& r, float t_min, float t_max, hit_record& rec) const override {
         vec3 edge1 = v1 - v0;
@@ -41,8 +42,13 @@ public:
         if (t > t_min && t < t_max) {
             rec.t = t;
             rec.p = r.at(t);
-            vec3 outward_normal = unit_vector(cross(edge1, edge2));
-            rec.set_face_normal(r, outward_normal);
+            
+            // Interpolate normal using barycentric coordinates
+            // w = 1 - u - v
+            float w = 1.0 - u - v;
+            vec3 interpolated_normal = unit_vector(w * n0 + u * n1 + v * n2);
+            
+            rec.set_face_normal(r, interpolated_normal);
             rec.mat_ptr = mat_ptr;
             rec.u = u;
             rec.v = v;
@@ -68,13 +74,14 @@ public:
 
 private:
     point3 v0, v1, v2;
+    vec3 n0, n1, n2;
     shared_ptr<material> mat_ptr;
 };
 
 class mesh : public hittable {
 public:
     mesh() {}
-    mesh(const std::string& filename, shared_ptr<material> m, float scale = 1.0, point3 offset = point3(0,0,0), float rotate_y = 0) {
+    mesh(const std::string& filename, shared_ptr<material> m, float scale = 1.0, point3 offset = point3(0,0,0), float rx = 0, float ry = 0, float rz = 0) {
         std::ifstream file(filename);
         if (!file.is_open()) {
             std::cerr << "Failed to open mesh file: " << filename << std::endl;
@@ -82,10 +89,15 @@ public:
         }
 
         std::vector<point3> vertices;
+        std::vector<vec3> vertex_normals;
+        std::vector<std::vector<int>> face_indices; // Stores vertex indices for each face
+        
         std::string line;
         
-        float cos_r = cos(rotate_y * PI / 180.0);
-        float sin_r = sin(rotate_y * PI / 180.0);
+        auto radians = [](float deg) { return deg * PI / 180.0; };
+        float sin_x = sin(radians(rx)); float cos_x = cos(radians(rx));
+        float sin_y = sin(radians(ry)); float cos_y = cos(radians(ry));
+        float sin_z = sin(radians(rz)); float cos_z = cos(radians(rz));
 
         while (std::getline(file, line)) {
             if (line.substr(0, 2) == "v ") {
@@ -98,14 +110,26 @@ public:
                 y *= scale;
                 z *= scale;
                 
-                // Apply rotation around Y axis
-                float nx = x * cos_r + z * sin_r;
-                float nz = -x * sin_r + z * cos_r;
-                x = nx;
-                z = nz;
+                // Rotate around X
+                float y1 = y * cos_x - z * sin_x;
+                float z1 = y * sin_x + z * cos_x;
+                y = y1; z = z1;
+                
+                // Rotate around Y
+                float x1 = x * cos_y + z * sin_y;
+                float z2 = -x * sin_y + z * cos_y;
+                x = x1; z = z2;
+                
+                // Rotate around Z
+                float x2 = x * cos_z - y * sin_z;
+                float y2 = x * sin_z + y * cos_z;
+                x = x2; y = y2;
 
                 // Apply offset
                 vertices.push_back(point3(x + offset.x(), y + offset.y(), z + offset.z()));
+                
+                // Initialize normal for this vertex
+                vertex_normals.push_back(vec3(0,0,0));
             } else if (line.substr(0, 2) == "f ") {
                 std::string vertex_string;
                 std::istringstream s(line.substr(2));
@@ -119,16 +143,53 @@ public:
                         v_indices.push_back(std::stoi(vertex_string) - 1);
                     }
                 }
-
+                
+                // Triangulate polygon
                 for (size_t i = 1; i < v_indices.size() - 1; i++) {
-                    triangles.add(make_shared<triangle>(
-                        vertices[v_indices[0]],
-                        vertices[v_indices[i]],
-                        vertices[v_indices[i+1]],
-                        m
-                    ));
+                    std::vector<int> triangle_indices;
+                    triangle_indices.push_back(v_indices[0]);
+                    triangle_indices.push_back(v_indices[i]);
+                    triangle_indices.push_back(v_indices[i+1]);
+                    face_indices.push_back(triangle_indices);
                 }
             }
+        }
+        
+        // Compute vertex normals by averaging face normals
+        for (const auto& indices : face_indices) {
+            point3 v0 = vertices[indices[0]];
+            point3 v1 = vertices[indices[1]];
+            point3 v2 = vertices[indices[2]];
+            
+            vec3 edge1 = v1 - v0;
+            vec3 edge2 = v2 - v0;
+            vec3 normal = cross(edge1, edge2); // Weighted by area
+            
+            vertex_normals[indices[0]] += normal;
+            vertex_normals[indices[1]] += normal;
+            vertex_normals[indices[2]] += normal;
+        }
+        
+        // Normalize all vertex normals
+        for (auto& n : vertex_normals) {
+            if (n.length_squared() > 0) {
+                n = unit_vector(n);
+            } else {
+                n = vec3(0,1,0); // Default up if degenerate
+            }
+        }
+        
+        // Create triangles with smooth normals
+        for (const auto& indices : face_indices) {
+            triangles.add(make_shared<triangle>(
+                vertices[indices[0]],
+                vertices[indices[1]],
+                vertices[indices[2]],
+                vertex_normals[indices[0]],
+                vertex_normals[indices[1]],
+                vertex_normals[indices[2]],
+                m
+            ));
         }
         
         if (triangles.objects.empty()) {
