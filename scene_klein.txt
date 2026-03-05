@@ -1,0 +1,36 @@
+camera 0 -12 4 0 0 2 0 0 1 30 1.777
+resolution 1280 720
+# Klein Bottle Scene
+
+# Floor - XY plane (z=0), chessboard
+xy_rect -10 10 -10 10 0 checker 0.1 0.1 0.1 0.9 0.9 0.9
+
+# Back wall - XZ plane (y=10), chessboard
+xz_rect -10 10 0 10 10 checker 0.1 0.1 0.1 0.9 0.9 0.9
+
+# Left wall - YZ plane (x=-10), chessboard
+yz_rect -10 10 0 10 -10 checker 0.1 0.1 0.1 0.9 0.9 0.9
+
+# Right wall - YZ plane (x=10), chessboard
+yz_rect -10 10 0 10 10 checker 0.1 0.1 0.1 0.9 0.9 0.9
+
+# Light Source
+xz_rect -4 4 4 6 9.9 light 15 15 15
+
+# Klein Bottle
+# Rotated 90 degrees around X to stand up? 
+# In generate_klein_obj.py:
+# vx = x * scale * 0.2
+# vy = y * scale * 0.2
+# vz = z * scale * 0.2
+# Where z was derived from '16 * sin_u' which is the long axis.
+# So vz is the long axis. The bottle is already Z-up.
+# Center is roughly (0,0,2.0).
+
+# Use a nice glass material
+# dielectric: r g b ir
+mesh klein.obj 1.0 0 0 0 dielectric 0.8 0.9 1.0 1.5
+
+# Add some spheres to reflect
+sphere 3 0 1 1 metal 0.8 0.6 0.2 0.0
+sphere -3 2 1 1 metal 0.2 0.2 0.8 0.1

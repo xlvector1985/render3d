@@ -1,0 +1,23 @@
+camera 0 -6 4 0 0 1.5 0 0 1 40 1.777
+resolution 1280 720
+# Mobius Strip Scene
+
+# Floor - XY plane (z=0), chessboard
+xy_rect -10 10 -10 10 0 checker 0.1 0.1 0.1 0.9 0.9 0.9
+
+# Back wall - XZ plane (y=10), chessboard
+xz_rect -10 10 0 10 10 checker 0.1 0.1 0.1 0.9 0.9 0.9
+
+# Left wall - YZ plane (x=-10), chessboard
+yz_rect -10 10 0 10 -10 checker 0.1 0.1 0.1 0.9 0.9 0.9
+
+# Right wall - YZ plane (x=10), chessboard
+yz_rect -10 10 0 10 10 checker 0.1 0.1 0.1 0.9 0.9 0.9
+
+# Light Source
+xz_rect -4 4 4 6 9.9 light 15 15 15
+
+# Mobius Strip
+# mesh filename scale x y z mat_type ...
+# metal: r g b fuzz
+mesh mobius.obj 1.0 0 0 0 metal 0.8 0.8 0.8 0.05

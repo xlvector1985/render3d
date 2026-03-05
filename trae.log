@@ -72,3 +72,134 @@ Generated the correct 1080p image with the fixed code and scene file.
    ```
 
 **Result**: `image_balls_behind_torii_300.png` successfully generated at 1920x1080 with correct textures and camera angle.
+
+## 4. Version Control
+Committed changes to git repository.
+
+- **Added Files**:
+  - `raytracer_bvh.cpp` (Fixed checker parsing)
+  - `mesh.h` (Enhanced mesh support)
+  - `scene_balls_behind_torii_1080p.txt` (New scene config)
+  - `ppm_to_png.py` (Conversion script)
+  - `trae.log` (Project log)
+  - `.gitignore` (Added to exclude build artifacts and images)
+  - Various other scene files and `analyze_obj.py`.
+
+- **Commit Message**: "Fix checkerboard texture parsing, update mesh support, and add 1080p scene configuration"
+
+## 5. Scene Adjustment: Closer View
+Adjusted the camera position to bring the viewer closer to the torii and spheres.
+
+- **Action**: Modified `scene_balls_behind_torii_1080p.txt`.
+- **Change**: Moved camera `lookfrom` from `(0, -12, 2)` to `(0, -7, 2)`.
+  ```text
+  # Before
+  camera 0 -12 2 ...
+  
+  # After
+  camera 0 -7 2 ...
+  ```
+- **Execution**: Re-rendered the scene and updated `image_balls_behind_torii_300.png`.
+
+## 6. Scene Adjustment: Added Green Glass Cylinder
+Added a narrow green glass cylinder in the center of the metal torus.
+
+- **Action**: Modified `scene_balls_behind_torii_1080p.txt`.
+- **Change**: Added a `cylinder` object.
+  ```text
+  # 5. Green Glass Cylinder (Center of Metal Torus)
+  # Center at (1.2, 0, 0), Radius 0.2, Height 1.0
+  # cylinder x y z r h dielectric r g b ir
+  cylinder 1.2 0 0 0.2 1.0 dielectric 0.2 0.8 0.2 1.5
+  ```
+- **Execution**: Re-rendered the scene and updated `image_balls_behind_torii_300.png`.
+
+## 7. New Geometry: Glass Beaker
+Created a new glass beaker geometry and scene.
+
+- **Beaker Generation**:
+  - Created Python script `generate_beaker_obj.py` to procedurally generate a beaker mesh (hollow cylinder with bottom and rim).
+  - Parameters: `R=1.0` (outer), `r=0.85` (inner), `H=2.2`, `d=0.2`.
+  - Generated `beaker.obj`.
+- **Scene Setup**:
+  - Created `scene_beaker.txt`.
+  - Background: Checkerboard walls and floor.
+  - Object: `beaker.obj` with dielectric (glass) material.
+  - Removed the red sphere from inside the beaker as requested.
+  - **Added Lighting**: To address the "too dark" issue, added a large area light source above the scene.
+    ```text
+    xz_rect -2 2 4 6 4.9 light 15 15 15
+    ```
+- **Execution**:
+  - Rendered `image_beaker_300.png` at 1280x720 resolution with 300 samples.
+
+## 8. New Geometry: Klein Bottle
+Created a Klein bottle scene using a parametric surface mesh.
+
+- **Mesh Generation**:
+  - Created `generate_klein_obj.py` implementing the parametric equations for a "Figure-8" Klein bottle.
+  - Generated `klein.obj` with 60x60 segments.
+- **Scene Setup**:
+  - Created `scene_klein.txt`.
+  - Background: Checkerboard room (floor and 3 walls).
+  - Object: `klein.obj` with dielectric (glass) material (`ir=1.5`).
+  - Lighting: Added a strong overhead area light (`light 15 15 15`).
+  - Extras: Added two metal spheres to enhance reflections.
+- **Execution**:
+  - Rendered `image_klein.png` at 1280x720 resolution.
+
+## 9. Klein Bottle Improvement: Figure-8 Immersion
+Switched to the "Figure-8 Immersion" parameterization to fix seam issues and visual artifacts.
+
+- **Parameterization Update**:
+  - Updated `generate_klein_obj.py` to use the Figure-8 equations (smooth, self-intersecting figure-8 profile).
+  - Extended `u` range to `[0, 4*pi]` to ensure the surface closes perfectly without seams.
+  - Adjusted scaling and orientation to make it stand upright.
+- **Scene Update**:
+  - Removed the back wall visible "hole" by moving the wall further back or removing it entirely (moved to y=10).
+- **Execution**:
+  - Rendered `image_klein_1000.png` with 1000 samples for high-quality glass rendering.
+
+## 10. Klein Bottle Improvement: Classic Shape
+Switched back to the "Classic" Klein Bottle shape as requested by the user reference image, fixing seam issues.
+
+- **Parameterization Update**:
+  - Updated `generate_klein_obj.py` to use the "Classic" equations (bulbous bottom, neck looping back).
+  - Implemented a "twisted connection" logic at the seam ($u=0$ vs $u=2\pi$) by mapping $v$ to $\pi-v$, ensuring topological continuity.
+- **Execution**:
+  - Rendered `image_klein_1000.png` with 1000 samples.
+
+## 11. New Geometry: Mobius Strip
+Created a Mobius strip geometry and scene.
+
+- **Mesh Generation**:
+  - Created `generate_mobius_obj.py` using parametric equations for a Mobius strip.
+  - Generated `mobius.obj` with double-sided faces to ensure visibility from all angles (crucial for non-orientable surfaces).
+- **Scene Setup**:
+  - Created `scene_mobius.txt`.
+  - Background: Checkerboard room.
+  - Object: `mobius.obj` with **Metal** material (`metal 0.8 0.7 0.2 0.05`).
+  - Extras: Added a glass sphere to reflect in the metal surface.
+  - Lighting: Strong overhead light.
+- **Execution**:
+  - Rendered `image_mobius_300.png` at 1280x720 resolution with 300 samples.
+
+## 12. Mobius Strip Improvement: Solid & Round
+Modified the Mobius strip to have thickness and a rounded cross-section.
+
+- **Mesh Generation Update**:
+  - Updated `generate_mobius_obj.py` to generate a "solid" Mobius strip (a twisted tube).
+  - Implemented an elliptical cross-section sweep algorithm.
+  - Handled the seam connection with a 180-degree phase shift logic to ensure topological closure.
+- **Scene Update**:
+  - Removed the glass sphere from `scene_mobius.txt` as requested.
+- **Execution**:
+  - Rendered updated `image_mobius_300.png`.
+
+## 13. Mobius Strip Improvement: Silver Finish
+Updated the Mobius strip to a silver/chrome finish and high-quality render.
+
+- **Material Update**:
+  - Changed material from gold (`0.8 0.7 0.2`) to silver/chrome (`0.8 0.8 0.8`) in `scene_mobius.txt`.
+- **Execution**:
+  - Rendered `image_mobius_1000.png` with 1000 samples for a high-quality finish.

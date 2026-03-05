@@ -1,0 +1,31 @@
+camera 0 -6 3 0 0 1 0 0 1 35 1.777
+resolution 1280 720
+# Beaker Scene with Checkerboard Background
+
+# Floor - XY plane (z=0), chessboard
+xy_rect -10 10 -10 10 0 checker 0.1 0.1 0.1 0.9 0.9 0.9
+
+# Back wall - XZ plane (y=5), chessboard
+xz_rect -10 10 0 5 5 checker 0.1 0.1 0.1 0.9 0.9 0.9
+
+# Left wall - YZ plane (x=-5), chessboard
+yz_rect -5 5 0 5 -5 checker 0.1 0.1 0.1 0.9 0.9 0.9
+
+# Right wall - YZ plane (x=5), chessboard
+yz_rect -5 5 0 5 5 checker 0.1 0.1 0.1 0.9 0.9 0.9
+
+# Light Source
+# A bright light from above
+xz_rect -2 2 4 6 4.9 light 15 15 15
+# Scale 1.5, Center at (0, 0, 0), Rotated 90 around X to stand upright (Wait, obj is Z-up already?)
+# Let's check generate_beaker_obj.py: it generates Z-up (z=0 to z=H).
+# Our renderer assumes Y-up usually for camera, but scene objects are placed in world space.
+# If we look at previous scenes, torus was placed at z=0.2.
+# So Z seems to be up in the scene definition (xy_rect is floor).
+# So no rotation needed for beaker if it is generated Z-up.
+
+# mesh filename scale x y z mat_type ...
+# dielectric: r g b ir
+mesh beaker.obj 1.0 0 0 0 dielectric 0.9 0.9 0.95 1.5
+
+
