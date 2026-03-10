@@ -1,6 +1,9 @@
 # Compilation
 *.o
 raytracer_bvh
+raytracer
+metal_rt
+opengl_scene/build/
 
 # Output images
 *.ppm
