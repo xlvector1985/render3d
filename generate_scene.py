@@ -62,7 +62,7 @@ for i in range(50):
     else:
         scene += f"sphere {x:.4f} {y:.4f} {r:.4f} {r:.4f} metal 0.8 0.8 0.8 0.0\n"
 
-with open('scene_random.txt', 'w') as f:
+with open('examples/scene_random.txt', 'w') as f:
     f.write(scene)
 
-print("生成随机场景: scene_random.txt")
+print("生成随机场景: examples/scene_random.txt")

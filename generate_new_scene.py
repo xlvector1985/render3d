@@ -115,10 +115,10 @@ for i in range(3):
             scene += f"sphere {x:.4f} {y:.4f} {r:.4f} {r:.4f} lambertian 0.8 0.6 0.2\n"
             break
 
-with open('scene_new.txt', 'w') as f:
+with open('examples/scene_new.txt', 'w') as f:
     f.write(scene)
 
-print("生成新场景: scene_new.txt")
+print("生成新场景: examples/scene_new.txt")
 print("- 地板和左右墙: 国际象棋棋盘")
 print("- 后墙: 国际象棋棋盘，中间下方有小镜子")
 print("- 10个金属球, 10个玻璃球")

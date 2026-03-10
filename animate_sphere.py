@@ -37,7 +37,7 @@ sphere {x_pos:.2f} 0 1.0 1.0 dielectric 0.9 0.9 0.9 1.5
         f.write(content)
 
 def generate_animation():
-    output_dir = "anim_frames"
+    output_dir = os.path.join("examples", "anim_frames")
     if not os.path.exists(output_dir):
         os.makedirs(output_dir)
 
@@ -82,13 +82,13 @@ def generate_animation():
     print("Creating GIF...")
     if images:
         images[0].save(
-            "rolling_sphere.gif",
+            os.path.join("examples", "rolling_sphere.gif"),
             save_all=True,
             append_images=images[1:],
             duration=100, # 100ms per frame = 10fps
             loop=0
         )
-        print("Done! Saved to rolling_sphere.gif")
+        print("Done! Saved to examples/rolling_sphere.gif")
     else:
         print("No images generated.")
 

@@ -41,7 +41,7 @@ for i in range(num_tori):
     # Use colored dielectric glass (we'll just use white for now, but the structure is there)
     scene += f"torus {x:.4f} {y:.4f} {z:.4f} {major_r:.4f} {minor_r:.4f} dielectric 1.0 1.0 1.0 1.5\n"
 
-with open('scene_tori.txt', 'w') as f:
+with open('examples/scene_tori.txt', 'w') as f:
     f.write(scene)
 
-print(f"生成彩色圆环场景: scene_tori.txt ({num_tori}个圆环)")
+print(f"生成彩色圆环场景: examples/scene_tori.txt ({num_tori}个圆环)")
