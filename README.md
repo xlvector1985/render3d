@@ -1,6 +1,6 @@
 # 渲染实验工程
 
-这个仓库包含一个 C++ 光线追踪器、若干测试场景、以及一个使用 OpenGL 绘制的实时示例场景。
+这个仓库包含一个 C++ 光线追踪器、若干测试场景、一个使用 OpenGL 绘制的实时示例场景，以及一个基于 Radiosity 的离线渲染脚本。
 
 ## 目录结构
 
@@ -8,6 +8,7 @@
 - opengl_scene/：C++ OpenGL 示例工程
 - raytracer_bvh：光线追踪器可执行文件
 - ppm_to_png.py：PPM 转 PNG 工具
+- radiosity_render.py：Radiosity 离线渲染脚本
 
 ## 光线追踪器使用
 
@@ -25,6 +26,14 @@ bash examples/run_all_examples.sh
 ```
 
 输出默认在 `examples/output/`。
+
+## Radiosity 示例
+
+```bash
+python3 radiosity_render.py
+```
+
+输出为 `examples/output/radiosity_room_red_sphere.png`。
 
 ## OpenGL 示例
 
