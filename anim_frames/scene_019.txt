@@ -1,0 +1,29 @@
+resolution 480 270
+camera 0 -10 3 0 0 1 0 0 1 30 1.777
+
+# Floor - XY plane (z=0), chessboard
+xy_rect -10 10 -10 10 0 checker 0.1 0.1 0.1 0.9 0.9 0.9
+
+# Back wall - XZ plane (y=20), chessboard
+xz_rect -10 10 0 20 20 checker 0.1 0.1 0.1 0.9 0.9 0.9
+
+# Left wall - YZ plane (x=-10), chessboard
+yz_rect -10 10 0 10 -10 checker 0.1 0.1 0.1 0.9 0.9 0.9
+
+# Right wall - YZ plane (x=10), chessboard
+yz_rect -10 10 0 10 10 checker 0.1 0.1 0.1 0.9 0.9 0.9
+
+# Light Source
+xz_rect -4 4 4 6 9.9 light 15 15 15
+
+# Rolling Glass Sphere
+# Radius 1.0, z=1.0 (on floor)
+# dielectric: r g b ir
+sphere 2.61 0 1.0 1.0 dielectric 0.9 0.9 0.9 1.5
+
+# Add a small metal ball inside to visualize rotation? 
+# If it's rolling, x moves, and it rotates around Y axis.
+# A point at (r, 0, 0) relative to center rotates.
+# But sphere is symmetric. Let's just move it first.
+# Adding an inner inclusion to see "rolling" would be cool but requires math for the inclusion's position.
+# Let's keep it simple: just a sliding glass sphere for now.

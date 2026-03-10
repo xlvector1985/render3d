@@ -1,0 +1,47 @@
+hittable_list chess_scene() {
+    hittable_list world;
+
+    auto floor_checker = make_shared<checker_texture>(color(0.05, 0.05, 0.05), color(0.95, 0.95, 0.95), checker_texture::plane_type::XY);
+    auto floor_material = make_shared<lambertian>(floor_checker);
+    world.add(make_shared<xy_rect>(-5, 5, -5, 5, 0, floor_material));
+
+    auto wall_checker_yz = make_shared<checker_texture>(color(0.05, 0.05, 0.05), color(0.95, 0.95, 0.95), checker_texture::plane_type::YZ);
+    auto wall_material_yz = make_shared<lambertian>(wall_checker_yz);
+    world.add(make_shared<yz_rect>(-5, 5, 0, 3, -5, wall_material_yz));
+    world.add(make_shared<yz_rect>(-5, 5, 0, 3, 5, wall_material_yz));
+
+    auto wall_checker_xz = make_shared<checker_texture>(color(0.05, 0.05, 0.05), color(0.95, 0.95, 0.95), checker_texture::plane_type::XZ);
+    auto wall_material_xz = make_shared<lambertian>(wall_checker_xz);
+    world.add(make_shared<xz_rect>(-5, 5, 0, 3, 5, wall_material_xz));
+
+    auto glass_material = make_shared<dielectric>(1.5);
+    auto metal_material = make_shared<metal>(color(0.8, 0.8, 0.8), 0.0);
+    auto red_material = make_shared<lambertian>(color(0.7, 0.2, 0.1));
+    auto blue_material = make_shared<lambertian>(color(0.1, 0.2, 0.7));
+    auto yellow_material = make_shared<lambertian>(color(0.8, 0.6, 0.2));
+    auto green_material = make_shared<lambertian>(color(0.1, 0.6, 0.2));
+    auto purple_material = make_shared<lambertian>(color(0.6, 0.1, 0.6));
+
+    world.add(make_shared<sphere>(point3(-1.2, 1.5, 0.4), 0.4, glass_material));
+    world.add(make_shared<sphere>(point3(-0.6, 2.0, 0.12), 0.12, glass_material));
+    world.add(make_shared<sphere>(point3(0.2, 1.8, 0.28), 0.28, glass_material));
+    world.add(make_shared<sphere>(point3(0.8, 2.2, 0.15), 0.15, glass_material));
+    world.add(make_shared<sphere>(point3(1.5, 1.7, 0.35), 0.35, glass_material));
+    world.add(make_shared<sphere>(point3(-1.5, 2.8, 0.18), 0.18, glass_material));
+    world.add(make_shared<sphere>(point3(-0.8, 3.2, 0.45), 0.45, glass_material));
+    world.add(make_shared<sphere>(point3(1.0, 3.0, 0.32), 0.32, glass_material));
+
+    world.add(make_shared<sphere>(point3(-2.5, 0.5, 0.35), 0.35, metal_material));
+    world.add(make_shared<sphere>(point3(2.5, 0.8, 0.3), 0.3, metal_material));
+
+    world.add(make_shared<cylinder>(point3(-3.0, 1.5, 0.0), 0.4, 1.5, metal_material));
+
+    world.add(make_shared<sphere>(point3(-4.0, 0.5, 0.3), 0.3, red_material));
+    world.add(make_shared<sphere>(point3(4.0, 0.8, 0.3), 0.3, blue_material));
+    world.add(make_shared<sphere>(point3(0, -1.0, 0.35), 0.35, metal_material));
+    world.add(make_shared<sphere>(point3(-4.0, 3.0, 0.28), 0.28, yellow_material));
+    world.add(make_shared<sphere>(point3(4.0, 3.2, 0.28), 0.28, green_material));
+    world.add(make_shared<sphere>(point3(0, 4.0, 0.32), 0.32, purple_material));
+
+    return world;
+}

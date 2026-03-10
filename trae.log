@@ -203,3 +203,17 @@ Updated the Mobius strip to a silver/chrome finish and high-quality render.
   - Changed material from gold (`0.8 0.7 0.2`) to silver/chrome (`0.8 0.8 0.8`) in `scene_mobius.txt`.
 - **Execution**:
   - Rendered `image_mobius_1000.png` with 1000 samples for a high-quality finish.
+
+## 14. Animation: Rolling Glass Sphere
+Created an animation of a glass sphere rolling across a checkerboard floor.
+
+- **Scripting**:
+  - Created `animate_sphere.py` to orchestrate frame generation and rendering.
+  - Scene: Large checkerboard room (40x40 units) to avoid background holes.
+  - Object: Glass sphere moving from x=-4 to x=4 over 24 frames.
+- **Rendering**:
+  - Resolution: 480x270 (for speed).
+  - Samples: 200 (for reasonable quality).
+  - Frames: 24 frames total.
+- **Output**:
+  - Generated frames and compiled them into `rolling_sphere.gif`.

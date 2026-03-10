@@ -1,0 +1,3 @@
+/Users/bytedance/Documents/trae_projects/ray/opengl_scene/build/CMakeFiles/opengl_scene.dir
+/Users/bytedance/Documents/trae_projects/ray/opengl_scene/build/CMakeFiles/edit_cache.dir
+/Users/bytedance/Documents/trae_projects/ray/opengl_scene/build/CMakeFiles/rebuild_cache.dir
